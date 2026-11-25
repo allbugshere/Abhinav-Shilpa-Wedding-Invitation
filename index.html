@@ -632,18 +632,42 @@
 
     #snd {
       position: fixed;
-      right: 14px;
-      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-      z-index: 40;
+      right: 18px;
+      bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+      z-index: 50;
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      border: 1px solid var(--gold);
-      background: rgba(58, 7, 19, .8);
+      border: 1.5px solid var(--gold);
+      background: rgba(58, 7, 19, .88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       color: var(--gold2);
       font-size: 20px;
       display: none;
-      cursor: pointer
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, .45), 0 0 12px rgba(217, 182, 96, .25);
+      transition: transform .25s ease, opacity .25s ease, background .25s ease;
+    }
+
+    #snd:hover {
+      transform: scale(1.08);
+      background: rgba(85, 12, 30, .95);
+    }
+
+    #snd.playing svg {
+      animation: rotateMusic 4s linear infinite;
+    }
+
+    @keyframes rotateMusic {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     footer {
@@ -702,7 +726,18 @@
     <div id="hint"><small>YOU ARE CORDIALLY INVITED</small><b>Tap to Open Invitation</b></div>
   </div>
 
-  <button id="snd" aria-label="Toggle music">♪</button>
+  <audio id="bgm" preload="auto" loop playsinline>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="snd" aria-label="Toggle music" title="Toggle Music">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+    </svg>
+  </button>
 
   <main id="site">
     <section id="hero">
@@ -798,7 +833,7 @@
       events: [
         { icon: "☀", name: "Haldi Rasam", date: "04 Dec 2026", time: "11:00 AM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
         { icon: "✿", name: "Mehndi", date: "04 Dec 2026", time: "07:30 PM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
-        { icon: "🤝", name: "Mama Swagat", date: "05 Dec 2026", time: "09:30 PM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
+        { icon: "🤝", name: "Mama Swagat", date: "05 Dec 2026", time: "09:30 AM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
         { icon: "👑", name: "Sehra Bandi", date: "05 Dec 2026", time: "02:30 PM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
         { icon: "🎉", name: "Departure of Barat", date: "05 Dec 2026", time: "06:30 PM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
         { icon: "🍽", name: "Dinner", date: "06 Dec 2026", time: "08:00 PM", place: "Committee Rest House, Nahan" }]
@@ -898,16 +933,58 @@ ${[[28, 28, 0], [472, 28, 90], [472, 672, 180], [28, 672, 270]].map(c => `<g tra
     }
     updateCd();
     setInterval(updateCd, 1000);
-    /* ===== soft ambient music (starts only after the tap) ===== */
-    let ac, gain, on = false;
-    function startMusic() {
-      if (RM || ac) return; try {
-        ac = new (window.AudioContext || window.webkitAudioContext)(); gain = ac.createGain(); gain.gain.value = 0; gain.connect(ac.destination);
-        [146.83, 220, 293.66, 329.63, 440].forEach((f, i) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.value = .05 / (1 + i * .3); const l = ac.createOscillator(), lg = ac.createGain(); l.frequency.value = .1 + i * .07; lg.gain.value = .02; l.connect(lg); lg.connect(g.gain); o.connect(g); g.connect(gain); o.start(); l.start() });
-        gain.gain.linearRampToValueAtTime(.6, ac.currentTime + 4); on = true; $('#snd').style.display = 'block'
-      } catch (e) { }
+    /* ===== background music (Sajna - Darshan Raval) ===== */
+    const bgm = $('#bgm');
+    const sndBtn = $('#snd');
+    const playIcon = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>';
+    const muteIcon = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.65"><line x1="2" y1="2" x2="22" y2="22"/><path d="M9 9v9"/><path d="M9 5l12-2v7"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>';
+
+    function updateMusicUI(playing) {
+      if (!sndBtn) return;
+      sndBtn.innerHTML = playing ? playIcon : muteIcon;
+      sndBtn.classList.toggle('playing', playing);
+      sndBtn.setAttribute('aria-label', playing ? 'Mute background music' : 'Play background music');
+      sndBtn.title = playing ? 'Mute music' : 'Play music';
+      sndBtn.style.opacity = playing ? '1' : '0.65';
     }
-    $('#snd').addEventListener('click', () => { if (!ac) return; on = !on; gain.gain.linearRampToValueAtTime(on ? .6 : 0, ac.currentTime + .4); $('#snd').style.opacity = on ? 1 : .5 });
+
+    function startMusic() {
+      if (!bgm) return;
+      sndBtn.style.display = 'grid';
+      bgm.volume = 0.05;
+      const playPromise = bgm.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          updateMusicUI(true);
+          let vol = 0.05;
+          const fadeTimer = setInterval(() => {
+            vol = Math.min(0.75, vol + 0.05);
+            bgm.volume = vol;
+            if (vol >= 0.75) clearInterval(fadeTimer);
+          }, 120);
+        }).catch(err => {
+          console.log('Audio autoplay blocked; waiting for user click:', err);
+          updateMusicUI(false);
+        });
+      }
+    }
+
+    function toggleMusic() {
+      if (!bgm) return;
+      if (bgm.paused) {
+        bgm.play().then(() => {
+          updateMusicUI(true);
+        }).catch(err => console.log('Audio playback error:', err));
+      } else {
+        bgm.pause();
+        updateMusicUI(false);
+      }
+    }
+
+    sndBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMusic();
+    });
   </script>
 </body>
 
