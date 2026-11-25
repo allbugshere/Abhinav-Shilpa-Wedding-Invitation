@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Abhinav &amp; Shilpa — Wedding Invitation</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=Pinyon+Script&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --gold: #d9b660;
+      --gold2: #f3dc9a;
+      --ivory: #f6ecd6;
+      --wine: #3a0713;
+      --wine2: #6b1428;
+      --ink: #4a1a22;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit
+    }
+
+    html {
+      height: 100%;
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: radial-gradient(ellipse at 50% 30%, var(--wine2), var(--wine) 70%);
+      color: var(--ivory);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(17px, 4.6vw, 20px);
+      line-height: 1.6;
+      overflow-x: hidden
+    }
+
+    .script {
+      font-family: 'Pinyon Script', 'Cormorant Garamond', cursive;
+      font-weight: 400
+    }
+
+    .gold {
+      background: linear-gradient(100deg, #b88a2e, var(--gold2) 35%, #fff3c4 50%, var(--gold) 65%, #a97c24);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: foil 6s linear infinite
+    }
+
+    @keyframes foil {
+      to {
+        background-position: -200% 0
+      }
+    }
+
+    #fx {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1
+    }
+
+    /* ---------- card stage ---------- */
+    #stage {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(18px, 4vh, 34px);
+      perspective: 1400px;
+      padding: 16px
+    }
+
+    #scene {
+      width: min(78vw, 360px, calc((100dvh - 190px)*.72));
+      aspect-ratio: 5/7;
+      position: relative;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .55));
+      animation: bob 5s ease-in-out infinite
+    }
+
+    #scene.go {
+      animation: none
+    }
+
+    @keyframes bob {
+      50% {
+        transform: translateY(-6px) rotateX(2deg)
+      }
+    }
+
+    .paper {
+      background: radial-gradient(circle at 30% 20%, #fffaf0, var(--ivory) 60%, #e8d8b4);
+    }
+
+    .paper::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .35;
+      mix-blend-mode: multiply;
+      background-image: repeating-linear-gradient(45deg, rgba(120, 90, 40, .06) 0 1px, transparent 1px 3px), repeating-linear-gradient(-45deg, rgba(120, 90, 40, .05) 0 1px, transparent 1px 4px)
+    }
+
+    #inner {
+      position: absolute;
+      inset: 0;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--ink);
+      padding: 10%;
+      border: 1.5px solid var(--gold);
+      outline: 1px solid var(--gold);
+      outline-offset: -9px
+    }
+
+    #inner p {
+      margin: 0;
+      font-style: italic;
+      font-size: clamp(13px, 3.6vw, 17px)
+    }
+
+    .door {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden
+    }
+
+    #dl {
+      left: 0;
+      transform-origin: left center;
+      border-radius: 6px 0 0 6px
+    }
+
+    #dr {
+      right: 0;
+      transform-origin: right center;
+      border-radius: 0 6px 6px 0
+    }
+
+    .door svg {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 200%
+    }
+
+    #dl svg {
+      left: 0
+    }
+
+    #dr svg {
+      right: 0
+    }
+
+    .shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1));
+      pointer-events: none
+    }
+
+    #dr .shade {
+      transform: scaleX(-1)
+    }
+
+    #seal {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 21%;
+      aspect-ratio: 1;
+      margin: -10.5% 0 0 -10.5%;
+      z-index: 5;
+      transform-style: flat;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .5))
+    }
+
+    #hint {
+      text-align: center;
+      transition: opacity .4s
+    }
+
+    #hint small {
+      display: block;
+      letter-spacing: .32em;
+      font-size: clamp(10px, 2.8vw, 12px);
+      color: var(--gold);
+      margin-bottom: 6px
+    }
+
+    #hint b {
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(18px, 5vw, 22px)
+    }
+
+    /* ---------- site ---------- */
+    #site {
+      visibility: hidden;
+      position: relative;
+      z-index: 5
+    }
+
+    section {
+      min-height: 100dvh;
+      padding: clamp(64px, 12vh, 110px) clamp(18px, 5vw, 48px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto
+    }
+
+    h2 {
+      font-family: 'Pinyon Script', cursive;
+      font-weight: 400;
+      font-size: clamp(40px, 11vw, 68px);
+      margin: 0 0 6px;
+      line-height: 1.1
+    }
+
+    .sub {
+      font-style: italic;
+      opacity: .8;
+      margin: 0 auto 34px;
+      max-width: 34ch
+    }
+
+    .orn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      margin: 18px auto;
+      color: var(--gold);
+      width: min(260px, 70%)
+    }
+
+    .orn::before,
+    .orn::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold))
+    }
+
+    .orn::after {
+      transform: scaleX(-1)
+    }
+
+    .names {
+      font-size: clamp(54px, 17vw, 128px);
+      line-height: 1;
+      margin: .1em 0
+    }
+
+    .amp {
+      font-size: clamp(28px, 8vw, 48px);
+      color: var(--gold);
+      margin: -.1em 0
+    }
+
+    .t {
+      opacity: 0
+    }
+
+    .cd {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(8px, 2.5vw, 22px);
+      max-width: 600px;
+      margin: 0 auto
+    }
+
+    .cd div {
+      border: 1px solid rgba(217, 182, 96, .5);
+      border-radius: 50% 50% 12px 12px/38% 38% 12px 12px;
+      padding: clamp(12px, 3vw, 24px) 2px;
+      background: rgba(255, 255, 255, .04);
+      box-shadow: inset 0 0 24px rgba(217, 182, 96, .08)
+    }
+
+    .cd b {
+      display: block;
+      font-size: clamp(28px, 8.5vw, 56px);
+      font-weight: 600;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums
+    }
+
+    .cd span {
+      font-size: clamp(11px, 3vw, 14px);
+      letter-spacing: .15em;
+      color: var(--gold)
+    }
+
+    .ev {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr))
+    }
+
+    .ev article {
+      border: 1px solid rgba(217, 182, 96, .4);
+      padding: 26px 18px;
+      background: linear-gradient(160deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .015));
+      border-radius: 140px 140px 10px 10px;
+      transition: transform .4s, border-color .4s
+    }
+
+    .ev article:hover,
+    .ev article:active {
+      transform: translateY(-6px);
+      border-color: var(--gold)
+    }
+
+    .ic {
+      width: 56px;
+      height: 56px;
+      margin: 8px auto 10px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      border: 1px solid var(--gold);
+      color: var(--gold2);
+      background: rgba(217, 182, 96, .1)
+    }
+
+    .ev h3 {
+      font-size: 1.5em;
+      margin: .2em 0;
+      font-weight: 600
+    }
+
+    .ev p {
+      margin: .1em 0;
+      opacity: .88
+    }
+
+    .ev .ev-date,
+    .ev article p:first-of-type {
+      font-size: 1.25em;
+      font-weight: 600;
+      letter-spacing: .03em;
+      color: var(--gold2);
+      margin: .3em 0 .15em;
+    }
+
+    .tl {
+      position: relative;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: left;
+      padding-left: 34px
+    }
+
+    .tl::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      background: linear-gradient(var(--gold), transparent)
+    }
+
+    .tl div {
+      position: relative;
+      margin-bottom: 30px
+    }
+
+    .tl div::before {
+      content: "";
+      position: absolute;
+      left: -31px;
+      top: .55em;
+      width: 11px;
+      height: 11px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 12px var(--gold)
+    }
+
+    .tl h3 {
+      margin: 0;
+      font-size: 1.25em;
+      color: var(--gold2);
+      font-weight: 600
+    }
+
+    .tl p {
+      margin: 2px 0 0;
+      opacity: .9
+    }
+
+    .mas {
+      columns: 2 140px;
+      column-gap: 10px;
+      max-width: 760px;
+      margin: 0 auto
+    }
+
+    .mas button {
+      display: block;
+      width: 100%;
+      margin: 0 0 10px;
+      border: 1px solid rgba(217, 182, 96, .45);
+      padding: 0;
+      background: none;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: zoom-in;
+      break-inside: avoid;
+      position: relative
+    }
+
+    .mas i {
+      display: block;
+      width: 100%;
+      transition: transform .7s
+    }
+
+    .mas button:hover i {
+      transform: scale(1.07)
+    }
+
+    .mas em {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 18px 8px 8px;
+      font-size: .85em;
+      color: #fff;
+      background: linear-gradient(transparent, rgba(30, 0, 8, .7))
+    }
+
+    #lb {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(20, 0, 6, .93);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px
+    }
+
+    #lb div {
+      width: min(92vw, 560px);
+      aspect-ratio: 4/5;
+      max-height: 80dvh;
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-end;
+      padding: 18px;
+      font-size: 1.2em
+    }
+
+    #lb button {
+      position: absolute;
+      top: calc(14px + env(safe-area-inset-top, 0px));
+      right: 14px
+    }
+
+    .btn {
+      font: inherit;
+      color: var(--wine);
+      background: linear-gradient(120deg, #b88a2e, var(--gold2), #b88a2e);
+      border: 0;
+      padding: 14px 30px;
+      min-height: 48px;
+      border-radius: 40px;
+      letter-spacing: .12em;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .35)
+    }
+
+    .btn.o {
+      background: none;
+      color: var(--gold2);
+      border: 1px solid var(--gold)
+    }
+
+    .map {
+      max-width: 640px;
+      margin: 0 auto 24px;
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #2a0510
+    }
+
+    .map svg {
+      display: block;
+      width: 100%;
+      height: auto
+    }
+
+    form {
+      max-width: 480px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+      text-align: left
+    }
+
+    label {
+      font-size: .9em;
+      color: var(--gold2);
+      letter-spacing: .05em
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      color: var(--ivory);
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(217, 182, 96, .5);
+      border-radius: 8px;
+      padding: 12px 14px;
+      min-height: 48px
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus,
+    .btn:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--gold2);
+      outline-offset: 2px
+    }
+
+    select option {
+      color: #222
+    }
+
+    .seg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px
+    }
+
+    .seg label {
+      margin: 0;
+      display: block
+    }
+
+    .seg input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      min-height: 0
+    }
+
+    .seg span {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      border: 1px solid rgba(217, 182, 96, .5);
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--ivory)
+    }
+
+    .seg input:checked+span {
+      background: var(--gold);
+      color: var(--wine);
+      font-weight: 600
+    }
+
+    .seg input:focus-visible+span {
+      outline: 2px solid var(--gold2);
+      outline-offset: 2px
+    }
+
+    #ok {
+      display: none;
+      text-align: center
+    }
+
+    #ok svg {
+      width: 96px;
+      height: 96px;
+      margin-bottom: 10px
+    }
+
+    #snd {
+      position: fixed;
+      right: 18px;
+      bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+      z-index: 50;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      background: rgba(58, 7, 19, .88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--gold2);
+      font-size: 20px;
+      display: none;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, .45), 0 0 12px rgba(217, 182, 96, .25);
+      transition: transform .25s ease, opacity .25s ease, background .25s ease;
+    }
+
+    #snd:hover {
+      transform: scale(1.08);
+      background: rgba(85, 12, 30, .95);
+    }
+
+    #snd.playing svg {
+      animation: rotateMusic 4s linear infinite;
+    }
+
+    @keyframes rotateMusic {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    footer {
+      padding: 30px 16px;
+      text-align: center;
+      font-size: .85em;
+      opacity: .6
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
+      .gold,
+      #scene {
+        animation: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <div id="stage">
+    <div id="scene" role="button" tabindex="0" aria-label="Open the wedding invitation">
+      <div id="inner" class="paper">
+        <p
+          style="font-size:clamp(11px,2.8vw,13px);letter-spacing:.2em;text-transform:uppercase;color:var(--wine2);margin-bottom:4px">
+          ॥ श्री गणेशाय नमः ॥</p>
+        <p>With the blessings of the Almighty &amp; our beloved families</p>
+        <div class="orn" style="width:60%">✦</div>
+        <p class="script gold" style="font-size:clamp(28px,9vw,44px);font-style:normal">Abhinav &amp; Shilpa</p>
+        <p style="margin-top:6px;font-size:clamp(11px,3vw,13px);letter-spacing:.18em;text-transform:uppercase">05
+          December 2026</p>
+      </div>
+      <div class="door paper" id="dl"><svg id="svgL" viewBox="0 0 500 700" preserveAspectRatio="none"></svg>
+        <div class="shade"></div>
+      </div>
+      <div class="door paper" id="dr"><svg id="svgR" viewBox="0 0 500 700" preserveAspectRatio="none"></svg>
+        <div class="shade"></div>
+      </div>
+      <svg id="seal" viewBox="0 0 100 100">
+        <defs>
+          <radialGradient id="wx" cx="35%" cy="30%">
+            <stop offset="0" stop-color="#f0cc7a" />
+            <stop offset=".6" stop-color="#c9973a" />
+            <stop offset="1" stop-color="#8a5f18" />
+          </radialGradient>
+        </defs>
+        <path
+          d="M50 4c10 0 14 8 24 9s16 10 14 20c-2 8 8 14 8 24s-10 16-8 24c1 10-8 17-18 17-8 0-12 8-20 8s-14-8-22-8c-10-1-18-8-16-18 2-8-8-14-8-23s10-16 8-25C7 12 18 8 28 8c10 0 12-4 22-4z"
+          fill="url(#wx)" />
+        <circle cx="50" cy="50" r="30" fill="none" stroke="#7a5212" stroke-width="2" /><text x="50" y="60"
+          text-anchor="middle" font-family="Pinyon Script,serif" font-size="30" fill="#7a5212">A&amp;S</text>
+      </svg>
+    </div>
+    <div id="hint"><small>YOU ARE CORDIALLY INVITED</small><b>Tap to Open Invitation</b></div>
+  </div>
+
+  <audio id="bgm" preload="auto" loop playsinline>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="snd" aria-label="Toggle music" title="Toggle Music">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+    </svg>
+  </button>
+
+  <main id="site">
+    <section id="hero">
+      <div class="wrap">
+        <p class="t" style="letter-spacing:.25em;font-size:.9em;margin-bottom:8px">॥ श्री गणेशाय नमः ॥</p>
+        <p class="t" style="font-style:italic">With the blessings of the Almighty and our beloved families</p>
+        <p class="t" style="margin:0;opacity:.8">Together with their families</p>
+        <h1 class="script names gold t" id="groom">Abhinav</h1>
+        <div class="script amp t">&amp;</div>
+        <h1 class="script names gold t" id="bride">Shilpa</h1>
+        <div class="orn t">✦</div>
+        <p class="t" style="font-size:1.15em">Are getting married &amp; joyfully invite you to celebrate</p>
+        <p class="t" id="heroDate" style="color:var(--gold2);letter-spacing:.2em"></p>
+        <p class="t" style="margin-top:34px;font-size:.8em;opacity:.6">Scroll gently ↓</p>
+      </div>
+    </section>
+    <section>
+      <div class="wrap">
+        <h2 class="gold r">Until We Say I Do</h2>
+        <p class="sub r">Counting down the moments until our forever begins</p>
+        <div class="cd r" id="cd"></div>
+      </div>
+    </section>
+    <section>
+      <div class="wrap">
+        <h2 class="gold r">Celebrations</h2>
+        <p class="sub r">Three days of love, laughter, sacred rituals and celebrations</p>
+        <div class="ev" id="events"></div>
+      </div>
+    </section>
+
+
+    <section>
+      <div class="wrap">
+        <h2 class="gold r">The Venue</h2>
+        <p class="sub r" id="vAddr" style="max-width:42ch"></p>
+        <div class="map r"><svg viewBox="0 0 640 300">
+            <rect width="640" height="300" fill="#2a0510" />
+            <g stroke="#6b1428" stroke-width="14" fill="none">
+              <path d="M-10 230 C140 190 260 260 420 170 S600 120 660 90" />
+              <path d="M120 -10 L200 310" />
+              <path d="M430 -10 L380 310" />
+            </g>
+            <g stroke="#8a2a40" stroke-width="2" fill="none">
+              <path d="M0 100 H640M0 190 H640M300 0 V300" />
+            </g>
+            <path d="M320 70c-22 0-38 16-38 36 0 28 38 62 38 62s38-34 38-62c0-20-16-36-38-36z" fill="#d9b660" />
+            <circle cx="320" cy="106" r="13" fill="#3a0713" />
+          </svg></div>
+        <a class="btn" id="dir" target="_blank" rel="noopener">GET DIRECTIONS</a>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="r"
+          style="margin: 0 auto 36px; max-width: 540px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(217, 182, 96, 0.35); border-radius: 16px; padding: 24px 20px; text-align: center;">
+          <p
+            style="font-family:'Pinyon Script', cursive; font-size: clamp(26px, 7vw, 38px); margin: 0 0 6px; color: var(--gold2); line-height: 1.2;">
+            Your presence is our greatest gift</p>
+          <p style="font-style: italic; opacity: .85; margin: 0 0 14px; font-size: 0.95em;">No boxed gifts please — your
+            blessings, presence and love are all that we desire.</p>
+          <div
+            style="font-size: .8em; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px;">
+            For Any Help Please Call</div>
+          <div
+            style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 0.95em; opacity: .9;">
+            <span><a href="tel:9816012635" style="color:inherit;text-decoration:none">📞 +91 98160 12635</a></span>
+            <span><a href="tel:7018094656" style="color:inherit;text-decoration:none">📞 +91 70180 94656</a></span>
+            <span><a href="tel:8854362776" style="color:inherit;text-decoration:none">📞 +91 88543 62776</a></span>
+          </div>
+        </div>
+        <p class="r" style="font-style:italic;font-size:1.3em;max-width:22ch;margin:0 auto">Your Presence Will Make Our
+          Celebration Complete</p>
+        <div class="orn r">✦</div>
+        <div class="script names gold r" id="fn" style="font-size:clamp(44px,13vw,100px)"></div>
+        <p class="r" id="fd" style="letter-spacing:.25em;color:var(--gold2)"></p>
+        <svg class="r" id="bloom" viewBox="0 0 200 200" width="200" height="200" style="margin-top:20px" fill="none"
+          stroke="#d9b660" stroke-width="1.2"></svg>
+      </div>
+    </section>
+    <footer>With love, Abhinav &amp; Shilpa · #AbhinavWedsShilpa</footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    /* ===== Central wedding configuration — edit everything here ===== */
+    const WEDDING = {
+      groom: "Abhinav", bride: "Shilpa",
+      date: "2026-12-05T14:30:00+05:30", dateText: "05 December 2026",
+      venue: { name: "Committee Rest House", address: "Nahan, Distt. Sirmour (HP)", maps: "https://www.google.com/maps/search/?api=1&query=Committee+Rest+House+Nahan+Distt+Sirmour+HP" },
+      events: [
+        { icon: "☀", name: "Haldi Rasam", date: "04 Dec 2026", time: "11:00 AM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
+        { icon: "✿", name: "Mehndi", date: "04 Dec 2026", time: "07:30 PM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
+        { icon: "🤝", name: "Mama Swagat", date: "05 Dec 2026", time: "09:30 AM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
+        { icon: "👑", name: "Sehra Bandi", date: "05 Dec 2026", time: "02:30 PM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
+        { icon: "🎉", name: "Departure of Barat", date: "05 Dec 2026", time: "06:30 PM", place: "At our residence, Cantt area, Nahan, Distt. Sirmour HP" },
+        { icon: "🍽", name: "Dinner", date: "06 Dec 2026", time: "08:00 PM", place: "Committee Rest House, Nahan" }]
+    };
+    const W = WEDDING, $ = s => document.querySelector(s), RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    /* ===== fill content ===== */
+    document.title = `${W.groom} & ${W.bride} — Wedding Invitation`;
+    $('#groom').textContent = W.groom; $('#bride').textContent = W.bride; $('#fn').textContent = `${W.groom} & ${W.bride}`;
+    $('#heroDate').textContent = W.dateText.toUpperCase(); $('#fd').textContent = W.dateText.toUpperCase();
+    $('#vAddr').innerHTML = `<b style="font-size:1.2em;font-weight:600">${W.venue.name}</b><br>${W.venue.address}`; $('#dir').href = W.venue.maps;
+    $('#events').innerHTML = W.events.map(e => `<article class="r"><div class="ic">${e.icon}</div><h3 class="gold">${e.name}</h3><p class="ev-date">${e.date} · ${e.time}</p><p class="ev-place" style="font-style:italic;opacity:.75">${e.place}</p></article>`).join('');
+    $('#cd').innerHTML = ['Days', 'Hours', 'Minutes', 'Seconds'].map(l => `<div><b>00</b><span>${l}</span></div>`).join('');
+    /* ===== door artwork (gold foil mandala on ivory) ===== */
+    function mandala() {
+      let p = ''; for (let r = 0; r < 12; r++) { p += `<g transform="rotate(${r * 30} 250 350)"><path d="M250 350C232 300 232 262 250 226C268 262 268 300 250 350Z" fill="rgba(217,182,96,.18)" stroke="url(#fg)" stroke-width="1.6"/><circle cx="250" cy="214" r="4" fill="url(#fg)"/></g>` }
+      for (let r = 0; r < 24; r++)p += `<path transform="rotate(${r * 15} 250 350)" d="M250 190C243 176 243 166 250 156C257 166 257 176 250 190Z" fill="none" stroke="url(#fg)" stroke-width="1"/>`;
+      return p + `<circle cx="250" cy="350" r="150" fill="none" stroke="url(#fg)" stroke-width="1.2" stroke-dasharray="2 5"/><circle cx="250" cy="350" r="64" fill="none" stroke="url(#fg)" stroke-width="1.5"/>`
+    }
+    const art = `<defs><linearGradient id="fg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#a97c24"/><stop offset=".5" stop-color="#f3dc9a"/><stop offset="1" stop-color="#b88a2e"/></linearGradient></defs>
+<rect x="14" y="14" width="472" height="672" fill="none" stroke="url(#fg)" stroke-width="3"/><rect x="28" y="28" width="444" height="644" fill="none" stroke="url(#fg)" stroke-width="1"/>
+${[[28, 28, 0], [472, 28, 90], [472, 672, 180], [28, 672, 270]].map(c => `<g transform="translate(${c[0]} ${c[1]}) rotate(${c[2]})"><path d="M0 0H70M0 0V70M12 12C40 12 52 30 40 46C28 56 14 46 24 34" fill="none" stroke="url(#fg)" stroke-width="1.6"/></g>`).join('')}
+<text x="250" y="110" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" letter-spacing="9" fill="url(#fg)">॥ SHUBH VIVAH ॥</text>${mandala()}
+<text x="250" y="580" text-anchor="middle" font-family="Pinyon Script,cursive" font-size="54" fill="url(#fg)">${W.groom} &amp; ${W.bride}</text>
+<text x="250" y="622" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="18" letter-spacing="6" fill="url(#fg)">${W.dateText.toUpperCase()}</text>`;
+    $('#svgL').innerHTML = art; $('#svgR').innerHTML = art; $('#svgR').setAttribute('viewBox', '250 0 500 700'); $('#svgL').setAttribute('viewBox', '0 0 500 700');
+    /* make each door show its half of the full-card art */
+    $('#svgL').style.width = '200%'; $('#svgR').style.width = '200%'; $('#svgR').setAttribute('viewBox', '0 0 500 700');
+    $('#svgR').style.right = '0';
+    /* ===== particles: gold dust + petals ===== */
+    const cv = $('#fx'), cx = cv.getContext('2d'); let PW, PH, P = [];
+    const N = RM ? 0 : (innerWidth < 600 ? 26 : 60);
+    function rs() { PW = cv.width = innerWidth; PH = cv.height = innerHeight } rs(); addEventListener('resize', rs);
+    for (let i = 0; i < N; i++)P.push({ x: Math.random() * PW, y: Math.random() * PH, s: 1 + Math.random() * 3, v: .2 + Math.random() * .7, w: Math.random() * 6, petal: i % 3 == 0, r: Math.random() * 6 });
+    let burst = 1;
+    (function loop() {
+      cx.clearRect(0, 0, PW, PH); for (const p of P) {
+        p.y += p.v * (p.petal ? 1.2 : .4) * burst; p.w += .02; p.x += Math.sin(p.w) * .5 + (p.petal ? .2 : 0); p.r += .02; if (p.y > PH + 10) { p.y = -10; p.x = Math.random() * PW }
+        cx.save(); cx.translate(p.x, p.y); if (p.petal) { cx.rotate(p.r); cx.fillStyle = 'rgba(214,70,100,.55)'; cx.beginPath(); cx.ellipse(0, 0, p.s * 2.6, p.s * 1.5, 0, 0, 7); cx.fill() } else { cx.fillStyle = 'rgba(243,220,154,' + (.35 + .4 * Math.sin(p.w * 2)) + ')'; cx.shadowColor = '#d9b660'; cx.shadowBlur = 8; cx.beginPath(); cx.arc(0, 0, p.s * .8, 0, 7); cx.fill() } cx.restore()
+      }
+      requestAnimationFrame(loop)
+    })();
+    /* ===== card opening ===== */
+    const scene = $('#scene'); let opened = false;
+    function open() {
+      if (opened) return; opened = true; scene.classList.add('go'); startMusic();
+      const sc = Math.max(innerWidth / scene.offsetWidth, innerHeight / scene.offsetHeight) * 1.05;
+      const tl = gsap.timeline({ defaults: { ease: 'power3.inOut' } });
+      if (RM) { tl.set('#stage', { autoAlpha: 0 }).add(reveal); return }
+      tl.to('#hint', { opacity: 0, duration: .4 })
+        .to('#seal', { scale: 1.25, duration: .35, ease: 'back.out(3)' }, 0)
+        .to('#seal', { scale: 0, rotation: 90, opacity: 0, duration: .5 }, .35)
+        .to(scene, { y: -14, z: 60, rotateX: 6, duration: .8 }, 0)
+        .to('#dl', { rotateY: -172, duration: 1.9, ease: 'power2.inOut' }, .7)
+        .to('#dr', { rotateY: 172, duration: 1.9, ease: 'power2.inOut' }, .85)
+        .to('.shade', { opacity: 0, duration: 1.2 }, .9)
+        .to('#inner', { boxShadow: '0 0 60px 8px rgba(243,220,154,.6)', duration: 1 }, 1.4)
+        .add(() => { burst = 4; gsap.delayedCall(1.8, () => burst = 1) }, 1.5)
+        .to(scene, { scale: sc, y: 0, rotateX: 0, duration: 1.5, ease: 'power3.in' }, 2.5)
+        .to('#stage', { autoAlpha: 0, duration: .9 }, 3.5)
+        .add(reveal, 3.7)
+    }
+    function reveal() {
+      gsap.set('#site', { visibility: 'visible' }); document.body.style.overflow = 'auto';
+      gsap.fromTo('#hero .t', { opacity: 0, y: 30, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, stagger: .22, ease: 'power3.out' });
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray('.r').forEach(el => gsap.from(el, { opacity: 0, y: 40, filter: 'blur(6px)', duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } }));
+      gsap.to('.names', { yPercent: -12, ease: 'none', scrollTrigger: { trigger: '#hero', scrub: true, start: 'top top', end: 'bottom top' } });
+      let b = ''; for (let i = 0; i < 8; i++)b += `<g transform="rotate(${i * 45} 100 100)"><path d="M100 100C80 70 80 40 100 18C120 40 120 70 100 100Z"/></g>`;
+      $('#bloom').innerHTML = b + '<circle cx="100" cy="100" r="8"/>';
+      const ps = [...document.querySelectorAll('#bloom path')]; ps.forEach(p => { const l = p.getTotalLength(); gsap.set(p, { strokeDasharray: l, strokeDashoffset: l }) });
+      gsap.to(ps, { strokeDashoffset: 0, stagger: .2, duration: 1.6, scrollTrigger: { trigger: '#bloom', start: 'top 85%' } });
+      gsap.to('#bloom', { rotation: 360, duration: 60, repeat: -1, ease: 'none' });
+      document.body.scrollTop = 0; scrollTo(0, 0)
+    }
+    scene.addEventListener('click', open); scene.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open() } });
+    document.body.style.overflow = 'hidden';
+    /* ===== countdown ===== */
+    const T = new Date(W.date).getTime();
+    let cdInited = false;
+    function updateCd() {
+      let d = Math.max(0, T - Date.now());
+      const v = [
+        Math.floor(d / 864e5),
+        Math.floor(d / 36e5) % 24,
+        Math.floor(d / 6e4) % 60,
+        Math.floor(d / 1e3) % 60
+      ].map(x => String(x).padStart(2, '0'));
+      document.querySelectorAll('#cd b').forEach((el, i) => {
+        if (el.textContent !== v[i]) {
+          el.textContent = v[i];
+          if (!RM && i === 3 && cdInited) {
+            gsap.fromTo(el, { y: -8, opacity: .4 }, { y: 0, opacity: 1, duration: .4 });
+          }
+        }
+      });
+      cdInited = true;
+    }
+    updateCd();
+    setInterval(updateCd, 1000);
+    /* ===== background music (Sajna - Darshan Raval) ===== */
+    const bgm = $('#bgm');
+    const sndBtn = $('#snd');
+    const playIcon = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>';
+    const muteIcon = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.65"><line x1="2" y1="2" x2="22" y2="22"/><path d="M9 9v9"/><path d="M9 5l12-2v7"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>';
+
+    function updateMusicUI(playing) {
+      if (!sndBtn) return;
+      sndBtn.innerHTML = playing ? playIcon : muteIcon;
+      sndBtn.classList.toggle('playing', playing);
+      sndBtn.setAttribute('aria-label', playing ? 'Mute background music' : 'Play background music');
+      sndBtn.title = playing ? 'Mute music' : 'Play music';
+      sndBtn.style.opacity = playing ? '1' : '0.65';
+    }
+
+    function startMusic() {
+      if (!bgm) return;
+      sndBtn.style.display = 'grid';
+      bgm.volume = 0.05;
+      const playPromise = bgm.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          updateMusicUI(true);
+          let vol = 0.05;
+          const fadeTimer = setInterval(() => {
+            vol = Math.min(0.75, vol + 0.05);
+            bgm.volume = vol;
+            if (vol >= 0.75) clearInterval(fadeTimer);
+          }, 120);
+        }).catch(err => {
+          console.log('Audio autoplay blocked; waiting for user click:', err);
+          updateMusicUI(false);
+        });
+      }
+    }
+
+    function toggleMusic() {
+      if (!bgm) return;
+      if (bgm.paused) {
+        bgm.play().then(() => {
+          updateMusicUI(true);
+        }).catch(err => console.log('Audio playback error:', err));
+      } else {
+        bgm.pause();
+        updateMusicUI(false);
+      }
+    }
+
+    sndBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMusic();
+    });
+  </script>
+</body>
+
+</html>
